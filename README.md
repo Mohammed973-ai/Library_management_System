@@ -59,6 +59,12 @@ return_status - Book return records and tracking
 <img width="1118" height="630" alt="image" src="https://github.com/user-attachments/assets/912c4aba-fad7-4c2a-8c37-548d1818017e" />
 
 
+## 2. Database Design & Implementation
+
+### ERD
+
+
+<img width="1395" height="723" alt="image" src="https://github.com/user-attachments/assets/f96d2035-b07b-40ff-a254-f9baba3833b5" />
 
 
 
