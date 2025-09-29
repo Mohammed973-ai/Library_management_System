@@ -7,7 +7,9 @@ ETL processes, and business intelligence reporting for library operations.
 
 
 
-<img width="1500" height="1000" alt="image" src="https://github.com/user-attachments/assets/e1b3f5d9-dfe4-457c-a151-c5176b892ef3" />
+
+
+<img width="1048" height="716" alt="image" src="https://github.com/user-attachments/assets/5d935007-0b9f-438b-b3cc-69efd63d93cf" />
 
 
 
@@ -273,7 +275,81 @@ BEGIN
     WHERE b.[status] = 'no'        
 END
 ```
-* __Testing__
+## 3. ETL Process
+
+- ### Extraction
+    - Downloaded source data files in Excel/CSV format
+
+- ### Transformation
+    - **Text Qualifier Issue**: Removed text qualifiers (`""`) from CSV files that were causing all values to be interpreted as strings during import
+    - **Data Type Conversion**: Reformatted columns to appropriate data types, particularly converting date columns to `'YYYY-MM-DD'` format for SQL compatibility
+    - **NULL Value Handling**: Replaced string literals "NULL" with actual empty values to ensure proper NULL representation in the database
+    - **Delimiter Management**: Temporarily replaced commas within data values with semicolons (`;`) to prevent column misalignment during import, then restored original values post-loading
+
+- ### Loading
+    - Utilized SQL `BULK INSERT` statement for efficient data import into database tables
+  ```tsql
+  -- Data Insertion
+    -- emp data
+    bulk insert  employees
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\employees.csv'
+    WITH(FIELDTERMINATOR = ',',firstrow = 2);
+    --branch data
+    bulk insert  branch
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\branch.csv'
+    WITH(FIELDTERMINATOR = ',',firstrow = 2);
+    -- book data
+    bulk insert  books
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\books.csv'
+    WITH(FIELDTERMINATOR = ',',firstrow = 2);
+    -- members data
+    bulk insert members
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\members.csv'
+    WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
+    -- issued_status data
+    bulk insert issued_status
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\issued_status.csv'
+    WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
+    -- return_status data
+    bulk insert return_status
+    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\return_status.csv'
+    WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
+  -- solving the textqualifier problem
+    SELECT * FROM books
+    WHERE book_title LIKE '%;%'
+    UPDATE books 
+    SET book_title =  REPLACE(book_title, ';', ',')
+    WHERE book_title LIKE '%;%'
+  ```
+  ```tsql
+    -- updating the status values to align with what in return_status and issued_status     
+    go
+    UPDATE b
+    SET b.[status] = 'no'
+    FROM issued_status iss
+    LEFT JOIN return_status rs
+    ON iss.issued_book_isbn = rs.return_book_isbn
+    JOIN books b
+    ON b.isbn = iss.issued_book_isbn
+    WHERE rs.issued_id IS NULL
+    SELECT *
+    FROM issued_status iss
+    LEFT JOIN return_status rs
+    ON iss.issued_book_isbn = rs.return_book_isbn
+    JOIN books b
+    ON b.isbn = iss.issued_book_isbn
+    WHERE rs.issued_id IS NULL
+    GO
+    UPDATE b
+    SET b.[status] = 'yes'
+    FROM return_status rs
+    JOIN issued_status iss
+    ON iss.issued_id = rs.issued_id
+    JOIN books b
+    ON b.isbn = rs.return_book_isbn
+  ```
+
+* __Testing the 2 triggers that was made for cicular refrence between `employees` and `branch`__
 ```tsql
 --- Test the deletion trigger
 BEGIN TRANSACTION
@@ -294,7 +370,7 @@ SELECT * FROM Branch
 ROLLBACK;
 ```
 
-* __Testing__
+* __Testing the trigger for non foreign key dependancies__
 
 ```tsql
 SELECT * FROM issued_status
