@@ -325,7 +325,11 @@ END
     - **Delimiter Management**: Temporarily replaced commas within data values with semicolons (`;`) to prevent column misalignment during import, then restored original values post-loading
 
 - ### Loading
-    - Utilized SQL `BULK INSERT` statement for efficient data import into database tables
+ - Utilized SQL `BULK INSERT` statement for efficient data import into database tables
+
+
+
+
       
   ```tsql
   -- Data Insertion
