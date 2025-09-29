@@ -294,6 +294,24 @@ SELECT * FROM Branch
 ROLLBACK;
 ```
 
+* __Testing__
+
+```tsql
+SELECT * FROM issued_status
+SELECT * FROM books
+SELECT * FROM return_status
+begin transaction
+SELECT [status] FROM books
+where isbn = '978-0-06-112008-4'
+INSERT INTO issued_status VALUES('IS143','C108','2024-04-07','978-0-06-112008-4','E106')
+SELECT [status] FROM books
+where isbn = '978-0-06-112008-4'
+INSERT INTO return_status VALUES('RS121','IS143','2024-04-07','978-0-06-112008-4')
+SELECT [status] FROM books
+where isbn = '978-0-06-112008-4'
+rollback;
+```
+
 
 
 
