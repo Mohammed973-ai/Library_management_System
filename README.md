@@ -24,6 +24,7 @@ __2. Database Design & Implementation__
 * Implemented data integrity using db constraints (Primary Keys, Foreign Keys, Check Constraints)
 * Developed database objects including stored procedures for automated operations to enhance integrity
 * used Triggers to overcome the multipath cascade problem in sql server and enforce better constraints
+* used Triggers to resolve non-foreign key dependncies
 * Designed an Entity-Relationship Diagram (ERD) to visualize table relationships and dependencies
 
 __3. ETL Process__
