@@ -242,6 +242,7 @@ END
 
 - ### Managing Non-Foreign Key Dependencies
 Implemented business logic to handle interdependent columns across tables that aren't linked by foreign keys. The `status` column in the `books` table relates to records in `issued_status` and `return_status` tables: when `status = 'yes'`, the book is available for issuing; when `status = 'no'`, it's currently borrowed. To avoid insertion conflicts during the initial data load, I deferred this logic enforcement until after data insertion, then manually updated the book status values to reflect the correct availability based on issue and return records.   
+
 ```TSQL
 -- adding trigger for any insertion in the return_status table
 CREATE  TRIGGER t_issue_status_insertion
@@ -325,6 +326,7 @@ END
 
 - ### Loading
     - Utilized SQL `BULK INSERT` statement for efficient data import into database tables
+      
   ```tsql
   -- Data Insertion
     -- emp data
@@ -387,6 +389,7 @@ END
   ```
 
 * __Testing the 2 triggers that was made for cicular refrence between `employees` and `branch`__
+  
 ```tsql
 --- Test the deletion trigger
 BEGIN TRANSACTION
