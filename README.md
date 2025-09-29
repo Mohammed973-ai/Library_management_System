@@ -546,75 +546,161 @@ EXEC sp_executesql @sql
 
 - ## Data cleaning
    - How many employees do we have ?
+  ```tsql
+  
+  ```
 
 	- What postions do we have ?
+     ```tsql
+  
+  ```
 	
-	- how many employees does each postion have? 
+	- how many employees does each postion have?
+     ```tsql
+  
+  ```
 	
 	- What is the averag salary of the employee ?
+     ```tsql
+  
+  ```
 	
 	- in what branch does an employee work and what is their postion ?
+     ```tsql
+  
+  ```
 	
 	- Find Employees with the Most Book Issues Processed
 	Write a query to find the top 3 employees who have processed the
 	most book issues. Display the employee name, number of 
 	processed, and their branch.
+  ```tsql
+  
+  ```
 	
-	- How many members do we have ? 
+	- How many members do we have ?
+     ```tsql
+  
+  ```
 	
-	- what is the range of reg date for OUR members ? 
+	- what is the range of reg date for OUR members ?
+     ```tsql
+  
+  ```
 	
 	- List Members Who Have Issued More Than One Book -- Objective: Use GROUP BY to find members who have issued more than one book.
+     ```tsql
+  
+  ```
 	
 	- List Members Who Registered since a year or more(longterm)
-	
+     ```tsql
+  
+  ```
+
 	- OR
+     ```tsql
+  
+  ```
 	
 	- Identify Members with Overdue Books (assume a 30-day return period) Display the member's_id, member's name, book title, issue date, and days overdue.
+     ```tsql
+  
+  ```
 	
 	- Create a Table of Active Members
 	Use the CREATE TABLE AS (CTAS) statement to create a new table active_members containing members who have issued at least one book in the last 2 months.
+  ```tsql
+  
+  ```
 	
-	- How many books do we have? 
+	- How many books do we have?
+     ```tsql
+  
+  ```
 	
 	- What is the average rental price excluding outliers?
+     ```tsql
+  
+  ```
 	
 	- What is the average rental price including outliers?
+     ```tsql
+  
+  ```
 	
 	- the outlier doesnt seem to affect our average that much
+     ```tsql
+  
+  ```
 	
-	- we may use median 
+	- we may use median
+     ```tsql
+  
+  ```
 	
 	- What categories of books do we have ?
+     ```tsql
+  
+  ```
 	
 	- how many category of books do we have ?
+     ```tsql
+  
+  ```
 	
 	- how many books do we have for each category?
+     ```tsql
+  
+  ```
 	
 	- Find Total Rental Income by Category
+     ```tsql
+  
+  ```
 	
 	- List Employees with Their Branch Manager's Name and their branch details
+     ```tsql
+  
+  ```
 	
 	- Create a Table of Books with Rental Price Above a Certain Threshold let's say average
+     ```tsql
+  
+  ```
 	
 	- what is top 3 category with highest rental price?
+     ```tsql
+  
+  ```
 	
 	- Retrieve the List of Books Not Yet Returned
+     ```tsql
+  
+  ```
 	
 	- Create Summary Tables: Use CTAS to generate new tables based on query results - each book and total book_issued
+     ```tsql
+  
+  ```
 	
 	- Update Book Status on Return
 	Write a query to return the books and update the status of books in the books table to "Yes" when they are returned (based on entries in the return_status table).
+  ```tsql
+  
+  ```
 	
 	- testing
-	
-	- let's borrow  the game of throne book
-	
-	- let's return it 
+     ```tsql
+  
+  ```
 	
 	- Branch Performance Report
 	Create a query that generates a performance report for each
 	branch, showing the number of books issued, the number of books
 	returned, and the total revenue generated from book rentals.
+  ```tsql
+  
+  ```
 
 
