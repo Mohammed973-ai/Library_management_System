@@ -46,6 +46,43 @@ The system manages six core entities:
 * return_status - Book return records and tracking
 
 
+__5.Analytics & Reporting Capabilities__
+
+ __Employee Analytics__
+ 
+*  Employee distribution across positions and branches
+* Salary analysis and compensation metrics
+* Performance tracking based on book issues processed
+* Employee-manager hierarchical reporting
+
+ __Member Analytics__
+
+* Total member count and registration trends
+* Member activity patterns and engagement levels
+* Long-term member identification
+* Active member segmentation (last 2 months activity)
+
+__Book Inventory Analysis__
+
+* Total book count and category distribution
+* Rental price analysis (average, median, outlier detection)
+* High-value book identification
+* Category performance by rental revenue
+
+__Operational Analytics__
+
+* Books currently issued vs returned
+* Overdue book tracking (30-day return period)
+* Member overdue analysis with detailed reporting
+* Revenue analysis by category and branch
+
+__Branch Performance__
+
+* Comprehensive branch performance reports
+* Books issued and returned per branch
+* Revenue generation by branch location
+* Employee efficiency metrics
+
 ## 1. Data Modeling & Normalization
 
 * There were 6 excel files 1 for each entity so I drew these entities and checked their normal form degree  
