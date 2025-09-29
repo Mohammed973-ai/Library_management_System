@@ -544,5 +544,77 @@ EXEC sp_executesql @sql
  we cant change its price as we are't people who put prices 
  but when doing agg on rental we won't take it in consideration__
 
+- ## Data cleaning
+   - How many employees do we have ?
+
+	- What postions do we have ?
+	
+	- how many employees does each postion have? 
+	
+	- What is the averag salary of the employee ?
+	
+	- in what branch does an employee work and what is their postion ?
+	
+	- Find Employees with the Most Book Issues Processed
+	Write a query to find the top 3 employees who have processed the
+	most book issues. Display the employee name, number of 
+	processed, and their branch.
+	
+	- How many members do we have ? 
+	
+	- what is the range of reg date for OUR members ? 
+	
+	- List Members Who Have Issued More Than One Book -- Objective: Use GROUP BY to find members who have issued more than one book.
+	
+	- List Members Who Registered since a year or more(longterm)
+	
+	- OR
+	
+	- Identify Members with Overdue Books (assume a 30-day return period) Display the member's_id, member's name, book title, issue date, and days overdue.
+	
+	- Create a Table of Active Members
+	Use the CREATE TABLE AS (CTAS) statement to create a new table active_members containing members who have issued at least one book in the last 2 months.
+	
+	- How many books do we have? 
+	
+	- What is the average rental price excluding outliers?
+	
+	- What is the average rental price including outliers?
+	
+	- the outlier doesnt seem to affect our average that much
+	
+	- we may use median 
+	
+	- What categories of books do we have ?
+	
+	- how many category of books do we have ?
+	
+	- how many books do we have for each category?
+	
+	- Find Total Rental Income by Category
+	
+	- List Employees with Their Branch Manager's Name and their branch details
+	
+	- Create a Table of Books with Rental Price Above a Certain Threshold let's say average
+	
+	- what is top 3 category with highest rental price?
+	
+	- Retrieve the List of Books Not Yet Returned
+	
+	- Create Summary Tables: Use CTAS to generate new tables based on query results - each book and total book_issued
+	
+	- Update Book Status on Return
+	Write a query to return the books and update the status of books in the books table to "Yes" when they are returned (based on entries in the return_status table).
+	
+	- testing
+	
+	- let's borrow  the game of throne book
+	
+	- let's return it 
+	
+	- Branch Performance Report
+	Create a query that generates a performance report for each
+	branch, showing the number of books issued, the number of books
+	returned, and the total revenue generated from book rentals.
 
 
