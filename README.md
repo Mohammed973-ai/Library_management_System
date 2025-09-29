@@ -52,9 +52,6 @@ return_status - Book return records and tracking
 
 
 
-<img width="1127" height="515" alt="image" src="https://github.com/user-attachments/assets/a84a2cfc-cc79-4828-8113-0fafd56870c1" />
-
-
 <img width="1102" height="586" alt="image" src="https://github.com/user-attachments/assets/234f8363-0e39-4e2e-b1d6-0fbec478145b" />
 
 
