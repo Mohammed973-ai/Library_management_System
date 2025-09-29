@@ -46,7 +46,7 @@ The system manages six core entities:
 * return_status - Book return records and tracking
 
 
-__5.Analytics & Reporting Capabilities__
+__5. Analytics & Reporting Capabilities__
 
  __Employee Analytics__
  
