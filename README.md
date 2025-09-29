@@ -337,27 +337,27 @@ END
   -- Data Insertion
     -- emp data
     bulk insert  employees
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\employees.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',firstrow = 2);
     --branch data
     bulk insert  branch
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\branch.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',firstrow = 2);
     -- book data
     bulk insert  books
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\books.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',firstrow = 2);
     -- members data
     bulk insert members
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\members.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
     -- issued_status data
     bulk insert issued_status
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\issued_status.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
     -- return_status data
     bulk insert return_status
-    FROM 'D:\Life_factory\Career\SQL\Projects\Library_Management_System\return_status.csv'
+    FROM 'my_datapath.csv'
     WITH(FIELDTERMINATOR = ',',FIRSTROW = 2);
   -- solving the textqualifier problem
     SELECT * FROM books
@@ -438,9 +438,109 @@ rollback;
 ## 4. Analytics & Reporting Capabilities
 
 
+- ### CRAUD Operation
+    - __insert that record  '978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'yes', 'Harper Lee', 'J.B. Lippincott & Co.' in books__
+ 
+
+      ```tsql
+      INSERT INTO books VALUES ('978-1-60129-456-2', 'To Kill a Mockingbird', 'Classic', 6.00, 'yes', 'Harper Lee', 'J.B. Lippincott & Co.')
+      ```
+    - __Update an Existing Member's Address__
+ 
+
+      ```tsql  
+          UPDATE members
+          SET member_address = '125 Oak St'
+          WHERE member_id = 'C103';
+      ```
 
 
+    - __Delete a Record from the Issued Status Table -- Objective: Delete the record with issued_id = 'IS121' from the issued_status table.__
 
+
+       ```tsql
+        BEGIN TRANSACTION
+        DELETE FROM issued_status
+        WHERE issued_id = 'IS121'
+        ROLLBACK;
+       ```
+
+    - __Retrieve All Books Issued by a Specific Employee.__
+
+       ```tsql
+            SELECT b.book_title
+            FROM issued_status i 
+            JOIN books b
+            ON b.isbn = i.issued_book_isbn
+            AND issued_emp_id ='E101'
+        ```
+- ### Data cleaning
+  - __check null values for any column in any table__
+
+      ```tsql
+        DECLARE @table_name VARCHAR(50) = 'return_status',
+        @sql NVARCHAR(MAX) = ''
+        SELECT @sql = STRING_AGG(' SELECT ''' + c.name+''' AS [column name] ,COUNT(*) AS [NULL COUNT] FROM ' +@table_name+' WHERE '+c.name+' IS NULL ',' UNION ALL')
+        FROM sys.columns c
+        WHERE c.object_id =OBJECT_ID(@table_name)
+      ```
+  * __we found a whole column in return_status which is return_bookisbn with null values and we recovered it using issued_status__
+ 
+
+    ```tsql
+          UPDATE rs
+          SET rs.return_book_isbn = iss.issued_book_isbn
+          FROM return_status rs
+          JOIN issued_status iss
+          ON iss.issued_id = rs.issued_id
+    ```
+  - __check outlier values for any column in any table__
+       - __we checked for salary and rental price attributes__
+```tsql
+DECLARE @table_name VARCHAR(50) = 'books',
+@desired_col VARCHAR(50) = 'rental_price'
+,@sql nvarchar(max)
+SELECT @sql  = 'WITH quartiles
+AS(
+	SELECT TOP(1) PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY '+@desired_col+' ) OVER() AS Q2, 
+	PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY '+@desired_col +' )
+	OVER() AS Q3
+	FROM '+ @table_name +'
+),
+iqr_fences AS(
+	SELECT Q2 - 1.5*(Q3-Q2) AS [lower_fence],
+		   Q3 + 1.5*(Q3-Q2) AS [upper_fence] 
+	FROM quartiles
+)
+SELECT * 
+FROM '+@table_name+' , iqr_fences
+WHERE '+@desired_col + '  < [lower_fence] 
+OR ' +@desired_col +' > [upper_fence]'
+EXEC sp_executesql @sql
+```
+- __No outlier for employees but there is one  for books__
+	<table border="1" cellpadding="8" cellspacing="0" style="margin-left: 40px;">
+  <thead>
+    <tr>
+      <th>ISBN</th>
+      <th>Rental Price</th>
+      <th>Lower Fence</th>
+      <th>Upper Fence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>978-0-307-37840-1</td>
+      <td>2.50</td>
+      <td>3.25</td>
+      <td>9.25</td>
+    </tr>
+  </tbody>
+</table>  
+
+__we may keep it since we cant remove the book from the library and 
+ we cant change its price as we are't people who put prices 
+ but when doing agg on rental we won't take it in consideration__
 
 
 
