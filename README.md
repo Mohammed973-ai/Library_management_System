@@ -40,3 +40,41 @@ books - Book inventory with categories, pricing, and availability status
 Branch - Branch locations with manager assignments and contact details
 issued_status - Book issue transaction records
 return_status - Book return records and tracking
+
+
+## 1. Data Modeling & Normalization
+
+* There were 6 excel files 1 for each entity so I drew these entities and checked their normal form degree  
+
+
+
+<img width="1029" height="562" alt="image" src="https://github.com/user-attachments/assets/daf9ec38-4c8f-4ced-a0c8-f5a375bcce43" />
+
+
+
+<img width="1127" height="515" alt="image" src="https://github.com/user-attachments/assets/a84a2cfc-cc79-4828-8113-0fafd56870c1" />
+
+
+<img width="1102" height="586" alt="image" src="https://github.com/user-attachments/assets/234f8363-0e39-4e2e-b1d6-0fbec478145b" />
+
+
+
+<img width="1118" height="630" alt="image" src="https://github.com/user-attachments/assets/912c4aba-fad7-4c2a-8c37-548d1818017e" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
