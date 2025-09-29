@@ -519,24 +519,24 @@ OR ' +@desired_col +' > [upper_fence]'
 EXEC sp_executesql @sql
 ```
 - __No outlier for employees but there is one  for books__
-	<table border="1" cellpadding="8" cellspacing="0" style="margin-left: 40px;">
-  <thead>
-    <tr>
-      <th>ISBN</th>
-      <th>Rental Price</th>
-      <th>Lower Fence</th>
-      <th>Upper Fence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>978-0-307-37840-1</td>
-      <td>2.50</td>
-      <td>3.25</td>
-      <td>9.25</td>
-    </tr>
-  </tbody>
-</table>  
+			<table border="1" cellpadding="8" cellspacing="0" style="margin-left: 40px;">
+			  <thead>
+			    <tr>
+			      <th>ISBN</th>
+			      <th>Rental Price</th>
+			      <th>Lower Fence</th>
+			      <th>Upper Fence</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>978-0-307-37840-1</td>
+			      <td>2.50</td>
+			      <td>3.25</td>
+			      <td>9.25</td>
+			    </tr>
+			  </tbody>
+		</table>  
 
 
 
