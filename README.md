@@ -1,6 +1,7 @@
 # Library_management_System
 A comprehensive SQL-based library management system demonstrating end-to-end database development, from conceptual design to advanced analytics.
-##Project Overview
+
+## Project Overview
 This project showcases the complete implementation of a Library Management System using SQL, covering database design, data modeling,
 ETL processes, and business intelligence reporting for library operations.
 
