@@ -62,13 +62,13 @@ return_status - Book return records and tracking
 
 ## 2. Database Design & Implementation
 
-### ERD
+- ###  ERD
 
 
 <img width="1395" height="723" alt="image" src="https://github.com/user-attachments/assets/f96d2035-b07b-40ff-a254-f9baba3833b5" />
 
 
-
+- ### Table Creation and domain , Entity and Refrential Constraints
 
 ```tsql
 CREATE TABLE books (
@@ -168,8 +168,60 @@ ADD CONSTRAINT FK_Employees_Branch
 FOREIGN KEY (branch_id)
 REFERENCES Branch(branch_id);
 ```
+- ### Handling Circular References with Triggers
+Since the `employees` and `Branch` tables have a circular relationship (employees reference branches, branches reference managers who are employees), SQL Server prevents using `ON DELETE SET NULL` and `ON UPDATE CASCADE` on both foreign keys due to multiple cascade path conflicts. To resolve this, I applied cascade constraints to one foreign key and implemented 2 trigger deletion and update triggers to handle the cascading logic for the other, ensuring referential integrity without conflicts.
 
+```tsql
+--creating trigger so when emp_id is deleted or updates cascades heppens on branch..
+CREATE TRIGGER t_emp_id_branch_delete
+on employees
+AFTER DELETE
+AS
+BEGIN
+  UPDATE Branch
+  SET manager_id = NULL
+  WHERE manager_id IN (SELECT emp_id FROM deleted)
+END
+GO
+Create TRIGGER t_emp_id_branch_update
+on employees
+AFTER Update
+AS
+BEGIN
+   IF UPDATE(emp_id)
+   BEGIN
+    UPDATE b
+    SET b.manager_id = i.emp_id
+    FROM Branch b
+    INNER JOIN deleted d ON b.manager_id = d.emp_id
+    INNER JOIN inserted i ON d.emp_id <> i.emp_id;
+   END
+END
 
+```
+
+- ### There are some columns related to each others in different tables but they arent foreign keys like ```status``` in books and ```issued_status``` and ```returned status``` as if status is 'yes' meaning the book is available then the book can be issued but if 'no' it can't be borrowed and if it is in return_status then the status = 'yes' meaning the book is available this logic I implemented it after inserting data as I dont want any conflicts and then updated the status of the books manually  to take the right values..
+   
+* __Testing__
+```tsql
+--- Test the deletion trigger
+BEGIN TRANSACTION
+SELECT * FROM Branch
+WHERE manager_id = 'E109'
+DELETE FROM employees
+WHERE emp_id = 'E109'
+SELECT * FROM Branch
+WHERE manager_id = 'E109'
+ROLLBACK;
+---- test update trigger
+BEGIN TRANSACTION
+SELECT * FROM Branch
+UPDATE  employees
+SET emp_id = 'E200'
+WHERE emp_id = 'E109'
+SELECT * FROM Branch
+ROLLBACK;
+```
 
 
 
