@@ -538,7 +538,9 @@ EXEC sp_executesql @sql
   </tbody>
 </table>  
 
-__we may keep it since we cant remove the book from the library and 
+
+
+- __we may keep it since we cant remove the book from the library and 
  we cant change its price as we are't people who put prices 
  but when doing agg on rental we won't take it in consideration__
 
