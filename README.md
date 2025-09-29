@@ -200,8 +200,8 @@ END
 
 ```
 
-- ### There are some columns related to each others in different tables but they arent foreign keys like ```status``` in books and ```issued_status``` and ```returned status``` as if status is 'yes' meaning the book is available then the book can be issued but if 'no' it can't be borrowed and if it is in return_status then the status = 'yes' meaning the book is available this logic I implemented it after inserting data as I dont want any conflicts and then updated the status of the books manually  to take the right values..
-   
+- ### Managing Non-Foreign Key Dependencies
+Implemented business logic to handle interdependent columns across tables that aren't linked by foreign keys. The `status` column in the `books` table relates to records in `issued_status` and `return_status` tables: when `status = 'yes'`, the book is available for issuing; when `status = 'no'`, it's currently borrowed. To avoid insertion conflicts during the initial data load, I deferred this logic enforcement until after data insertion, then manually updated the book status values to reflect the correct availability based on issue and return records.   
 * __Testing__
 ```tsql
 --- Test the deletion trigger
