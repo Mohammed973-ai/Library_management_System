@@ -36,12 +36,12 @@ __3. ETL Process__
 __4. Database Schema__
 The system manages six core entities:
 
-employees - Staff information and branch assignments
-members - Library member profiles and registration data
-books - Book inventory with categories, pricing, and availability status
-Branch - Branch locations with manager assignments and contact details
-issued_status - Book issue transaction records
-return_status - Book return records and tracking
+* employees - Staff information and branch assignments
+* members - Library member profiles and registration data
+* books - Book inventory with categories, pricing, and availability status
+* Branch - Branch locations with manager assignments and contact details
+* issued_status - Book issue transaction records
+* return_status - Book return records and tracking
 
 
 ## 1. Data Modeling & Normalization
