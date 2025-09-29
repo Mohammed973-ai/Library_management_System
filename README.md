@@ -203,6 +203,76 @@ END
 
 - ### Managing Non-Foreign Key Dependencies
 Implemented business logic to handle interdependent columns across tables that aren't linked by foreign keys. The `status` column in the `books` table relates to records in `issued_status` and `return_status` tables: when `status = 'yes'`, the book is available for issuing; when `status = 'no'`, it's currently borrowed. To avoid insertion conflicts during the initial data load, I deferred this logic enforcement until after data insertion, then manually updated the book status values to reflect the correct availability based on issue and return records.   
+```TSQL
+-- adding trigger for any insertion in the return_status table
+CREATE  TRIGGER t_issue_status_insertion
+ON issued_status
+INSTEAD OF INSERT 
+AS
+BEGIN
+   IF EXISTS (SELECT b.[status] 
+                from inserted i
+                JOIN books b
+                ON  b.isbn = i.issued_book_isbn
+                where b.[status] = 'no' )
+    BEGIN
+        SELECT 'Cannot insert book ' + issued_book_isbn
+        FROM inserted i
+        JOIN books b
+        ON  b.isbn = i.issued_book_isbn
+        where b.[status] ='no'
+    END
+    INSERT INTO issued_status 
+    SELECT i.* 
+    FROM inserted i
+    JOIN books b
+    ON  b.isbn = i.issued_book_isbn
+    where b.[status] = 'yes' 
+    UPDATE  books
+    SET [status] ='no'
+    FROM inserted i
+    JOIN books b
+    ON b.isbn = i.issued_book_isbn
+    WHERE b.[status] = 'yes' 
+        
+END
+
+
+```
+```tsql
+-- adding trigger for any insertion in the return_status table
+
+CREATE  TRIGGER t_return_status_insertion
+ON return_status
+INSTEAD OF INSERT 
+AS
+BEGIN
+   IF EXISTS (SELECT b.[status] 
+                from inserted i
+                JOIN books b
+                ON  b.isbn = i.return_book_isbn
+                where b.[status] = 'yes' )
+    BEGIN
+        SELECT 'Cannot insert book ' + return_book_isbn + ', it hasn''t been borrowed'
+        FROM inserted i
+        JOIN books b
+        ON  b.isbn = i.return_book_isbn
+        where b.[status] ='yes'
+    END
+    INSERT INTO return_status
+    SELECT i.* 
+    FROM inserted i
+    JOIN books b
+    ON  b.isbn = i.return_book_isbn
+    where b.[status] = 'no' 
+    UPDATE  books
+    SET [status] ='yes'
+    FROM inserted i
+    JOIN books b
+    ON b.isbn = i.return_book_isbn
+    WHERE b.[status] = 'no'        
+END
+```
 * __Testing__
 ```tsql
 --- Test the deletion trigger
